@@ -1,9 +1,5 @@
 import sys
 
-try:
-    import snake
-except ModuleNotFoundError:
-    snake = lambda: None
-    snake.say = print
+import snake
 
 snake.say(" ".join(sys.argv[1:]))
