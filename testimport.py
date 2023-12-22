@@ -4,23 +4,26 @@ import traceback
 filename = os.path.basename(__file__)
 
 def decorator(func):
-    def wrapper():
-        try:
-            funcname = func.__name__
-            module, say = func()
+    funcname = func.__name__
+
+    def reset_modules(module):
+        for key in [k for k in sys.modules.keys() if k.startswith('snake')]:
+                del sys.modules[key]
+        del module
+    
+    def printmodule(module):
             modulename = module.__name__
             moduleattribs = [item for item in dir(module) if not item.startswith("_")]
             print(f'{funcname} | dir({modulename}) | {moduleattribs}')
+
+    def wrapper():
+        try:
+            module, say = func()
             say(f'{filename}:{funcname}')
-            for key in [k for k in sys.modules.keys()]:
-                if key.startswith('snake'):
-                    del sys.modules[key]
-            del module
+            printmodule(module)            
+            reset_modules(module)            
         except Exception as e:
             print(f'{funcname}: {e!r}')
-            # print(traceback.format_exc())
-            # raise
-
     return wrapper
 
 @decorator
@@ -46,4 +49,3 @@ if __name__ == '__main__':
     main(from_snakesay)
     main(import_snakesay_snake)
     main(import_snakesay)
-    
