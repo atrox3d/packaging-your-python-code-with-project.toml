@@ -19,7 +19,7 @@ def box(message):
     outerborder(lm, margin)
 
 
-box('HELLO FROM __INIT__.PY')
+# box('HELLO FROM __INIT__.PY')
 
 from . import snake
 
