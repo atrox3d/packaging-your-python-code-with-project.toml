@@ -24,21 +24,25 @@ def decorator(func):
             reset_modules(module)            
         except Exception as e:
             print(f'{funcname}: {e!r}')
+            # traceback.print_exc()
     return wrapper
 
 @decorator
 def from_snakesay():
     from snakesay import snake
+    print(f'{snake = }')
     return snake, snake.say
 
 @decorator
 def import_snakesay_snake():
     import snakesay.snake
+    print(f'{snakesay.snake = }')
     return snakesay.snake, snakesay.snake.say
 
 @decorator
 def import_snakesay():
     import snakesay
+    print(f'{snakesay = }')
     return snakesay.snake, snakesay.snake.say
 
 def main(fn):
@@ -47,5 +51,5 @@ def main(fn):
 if __name__ == '__main__':
     print(f'{sys.path[0:2] = }')
     main(from_snakesay)
-    main(import_snakesay_snake)
+    # main(import_snakesay_snake)
     main(import_snakesay)
